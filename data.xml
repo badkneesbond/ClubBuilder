@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+  <credentials>
+    <username>admin</username>
+    <password>admin123</password>
+  </credentials>
+  <users>
+    <user>
+      <firstName>Nick</firstName>
+      <lastName>Bond</lastName>
+      <email>toughbond@msn.com</email>
+      <phone>8929939934</phone>
+      <alignment>right</alignment>
+      <pure>Yes</pure>
+      <adjustment>none</adjustment>
+      <lieangle>none</lieangle>
+      <brand>Cobra</brand>
+      <model>King Tour Black</model>
+      <shaft>Ventus</shaft>
+      <clubs>P, 9, 8, 7, 6, 5, 4, 3</clubs>
+    </user>
+    <user>
+      <firstName>John</firstName>
+      <lastName>Fox</lastName>
+      <email>jfox@gmail.com</email>
+      <phone>989200293</phone>
+      <alignment>left</alignment>
+      <pure>Yes</pure>
+      <adjustment>1</adjustment>
+      <lieangle>none</lieangle>
+      <brand>Ping</brand>
+      <model>Blueprint</model>
+      <shaft>KBS</shaft>
+      <clubs>9, 8, 7, 6, 5, 4, 3, 2</clubs>
+    </user>
+    <user>
+      <firstName>Ben</firstName>
+      <lastName>Kite</lastName>
+      <email>bkite@gmail.com</email>
+      <phone>99288838343</phone>
+      <alignment>right</alignment>
+      <pure>Yes</pure>
+      <adjustment>1.75</adjustment>
+      <lieangle>none</lieangle>
+      <brand>Callaway</brand>
+      <model>Apex</model>
+      <shaft>Ventus</shaft>
+      <clubs>P, 9, 8, 7, 6, 5, 4, 3</clubs>
+    </user>
+    <user>
+      <firstName>Steve</firstName>
+      <lastName>Williams</lastName>
+      <email>swilly@gmail.com</email>
+      <phone>99238438234</phone>
+      <alignment>right</alignment>
+      <pure>Yes</pure>
+      <adjustment>-1.25</adjustment>
+      <lieangle>1 Deg flat</lieangle>
+      <brand>Callaway</brand>
+      <model>Apex</model>
+      <shaft>Ventus</shaft>
+      <clubs>P, 9, 8, 7, 6, 5, 4, 3</clubs>
+    </user>
+    <user>
+      <firstName>Prakash</firstName>
+      <lastName>Bot</lastName>
+      <email>pbot@sks.com</email>
+      <phone>w9834729384</phone>
+      <alignment>right</alignment>
+      <adjustment>-.75</adjustment>
+      <lieangle>none</lieangle>
+      <brand>Mizuno</brand>
+      <model>JPX 923 Tour</model>
+      <shaft>Ventus</shaft>
+      <clubs>8, 7, 6, 5, 4, 3, 9, P</clubs>
+    </user>
+  </users>
+</root>

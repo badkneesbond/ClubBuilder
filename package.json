@@ -3,15 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-amplify/analytics": "^7.0.56",
+    "@aws-amplify/api": "^6.1.1",
+    "@aws-amplify/auth": "^6.6.0",
+    "@aws-amplify/core": "^6.5.1",
+    "@aws-amplify/interactions": "^6.0.55",
+    "@aws-amplify/storage": "^6.6.14",
+    "@aws-amplify/xr": "^2.1.24",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "aws-amplify": "^6.8.0",
     "cors": "^2.8.5",
     "express": "^4.21.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^3.0.1",
     "web-vitals": "^2.1.4",
     "xml2js": "^0.6.2"
   },
@@ -40,9 +48,20 @@
     ]
   },
   "devDependencies": {
+    "@aws-amplify/backend": "^1.6.1",
+    "@aws-amplify/backend-cli": "^1.4.0",
     "autoprefixer": "^10.4.20",
+    "aws-cdk": "^2.165.0",
+    "aws-cdk-lib": "^2.165.0",
+    "constructs": "^10.4.2",
+    "esbuild": "^0.24.0",
     "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.13"
+    "tailwindcss": "^3.4.13",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  },
+  "overrides": {
+    "typescript": "^5.6.3"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "tailwind.config.js",

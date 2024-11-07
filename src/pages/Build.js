@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 // Import images
 import californiaImg from '../assets/images/california.png';
 import floridaImg from '../assets/images/california.png';
@@ -19,6 +20,7 @@ import taylorMadeIron from '../assets/images/TaylorMadeLogo.JPG';
 import titleistIron from '../assets/images/TitleistLogo.JPG';
 
 function CascadingDropdowns() {
+  const location = useLocation(); 
   const [selectedBrand, setSelectedBrand] = useState('');
   const [availablebrands, setAvailablebrands] = useState([]);
   const [selectedShaft, setSelectedShaft] = useState('');
@@ -50,6 +52,7 @@ function CascadingDropdowns() {
     'Blueprint': ['KBS', 'Ventus', 'ProjectX'],
     'ZX7': ['KBS', 'Ventus', 'ProjectX'],
     'P770': ['KBS', 'Ventus', 'ProjectX'],
+    'P790': ['KBS', 'Ventus', 'ProjectX'],
     'T100': ['KBS', 'Ventus', 'ProjectX'],
   };
 
@@ -70,6 +73,30 @@ function CascadingDropdowns() {
     { id: 7, imgSrc: taylorMadeIron, label: 'Taylormade', brands: ['P770', 'P790'] },
     { id: 8, imgSrc: titleistIron, label: 'Titleist', brands: ['T100', 'T150'] },
   ];
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const brandParam = queryParams.get('brand');
+    const modelParam = queryParams.get('model');
+
+    if (brandParam) {
+      const preselectedBrand = imageOptions.find(
+        (option) => option.label.toLowerCase() === brandParam.toLowerCase()
+      );
+
+      if (preselectedBrand) {
+        setSelectedImageOption(preselectedBrand);
+        setAvailablebrands(preselectedBrand.brands);
+        setSelectedBrand(''); // Reset selected model
+      }
+      // If a model is provided and is valid, preselect the model
+      if (modelParam && preselectedBrand.brands.includes(modelParam)) {
+        setSelectedBrand(modelParam);
+      } else {
+        setSelectedBrand(''); // Reset selected model if model is not valid
+      }
+    }
+  }, [location.search]);
 
   const handleBrandChange = (e) => {
     setSelectedBrand(e.target.value);
@@ -226,106 +253,138 @@ function CascadingDropdowns() {
         
       ) : (
         <>
-        {/* Sliding Select Control with Left and Right Arrows */}
-        <div className="relative mb-6">
-          <h3 className="text-lg font-medium text-gray-700 mb-2">Select Brand:</h3>
 
-          <div className="flex items-center">
-            {/* Left arrow */}
-            <button
-              className="bg-gray-300 hover:bg-gray-400 p-2 rounded-full z-10 mr-2"
-              onMouseEnter={startScrollLeft} // Start scrolling on hover
-              onMouseLeave={stopScroll} // Stop scrolling when hover ends
-            >
-              &#9664; {/* Left arrow symbol */}
-            </button>
-
-            {/* Image Options */}
-            <div
-              className="flex overflow-x-auto space-x-4 py-2"
-              ref={scrollContainerRef}
-              style={{ scrollBehavior: 'smooth' }}
-            >
-              {imageOptions.map((option) => (
-                <div
-                  key={option.id}
-                  className={`flex-none w-52 h-25 p-2 border rounded-lg cursor-pointer flex items-center justify-center ${
-                    selectedImageOption && selectedImageOption.id === option.id
-                      ? 'border-indigo-500'
-                      : 'border-gray-300'
-                  }`}
-                  onClick={() => handleImageSelect(option.id)}
-                >
-                  <img
-                    src={option.imgSrc}
-                    alt={option.label}
-                    className="w-full h-full object-contain rounded-lg"
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* Right arrow */}
-            <button
-              className="bg-gray-300 hover:bg-gray-400 p-2 rounded-full z-10 ml-2"
-              onMouseEnter={startScrollRight} // Start scrolling on hover
-              onMouseLeave={stopScroll} // Stop scrolling when hover ends
-            >
-              &#9654; {/* Right arrow symbol */}
-            </button>
-          </div>
-          {errors.image && <p className="text-red-500 text-sm mt-2">{errors.image}</p>}
+<div className="flex space-x-6"> {/* Flex container for two-column layout */}
+  
+  {/* Left Column: 1x8 Grid Select Control */}
+  <div className="w-1/4">
+    <h3 className="text-lg font-medium text-gray-700 mb-2">Select Brand:</h3>
+    <div className="grid grid-rows-8 gap-4"> {/* 1x8 grid layout */}
+      {imageOptions.map((option) => (
+        <div
+          key={option.id}
+          className={`flex-none h-20 p-2 border rounded-lg cursor-pointer flex items-center justify-center ${
+            selectedImageOption && selectedImageOption.id === option.id
+              ? 'border-indigo-500'
+              : 'border-gray-300'
+          }`}
+          onClick={() => handleImageSelect(option.id)}
+        >
+          <img
+            src={option.imgSrc}
+            alt={option.label}
+            className="w-full h-full object-contain rounded-lg"
+          />
         </div>
-
-        {/* Alignment Select Control */}
-        {selectedImageOption && (
-          <>
-            <label htmlFor="alignment" className="block text-lg font-medium text-gray-700 mb-2">
-              Select Hand:
-            </label>
-            <select
-              id="alignment"
-              value={alignment}
-              onChange={handleAlignmentChange}
-              className="block w-full p-2 border border-gray-300 rounded-lg mb-4 focus:border-indigo-500 focus:ring focus:ring-indigo-200"
-            >
-              <option value="right">Right</option>
-              <option value="left">Left</option>
-            </select>
-            {errors.alignment && <p className="text-red-500 text-sm mt-2">{errors.alignment}</p>}
-          </>
-        )}
-
-         {/* pure Select Control */}
-         {selectedImageOption && (
-          <> <div class="flex items-center mb-4">
-            <label htmlFor="pure" className="mr-2 text-lg font-medium text-gray-700 mb-2">
-              Do you want to Pure your shafts: 
-            </label> <div>
-      <a href="https://sstpure.com/" target="_blank" rel="noopener noreferrer">
-        <img 
-          src="https://sstpure.com/wp-content/uploads/2018/02/sst-pure-logo-1.png" 
-          alt="Pure Website" 
-          style={{ width: '130px', height: '40px' }} 
-        />
-      </a>
+      ))}
     </div>
-    </div>
-            <select
-              id="pure"
-              value={pure}
-              onChange={handlePureChange}
-              className="block w-full p-2 border border-gray-300 rounded-lg mb-4 focus:border-indigo-500 focus:ring focus:ring-indigo-200"
-            >
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-            </select>
-            {errors.pure && <p className="text-red-500 text-sm mt-2">{errors.pure}</p>}
-          </>
-        )}
+    {errors.image && <p className="text-red-500 text-sm mt-2">{errors.image}</p>}
+  </div>
 
-        {/* adjustment Select Control */}
-        {selectedImageOption && (
+  {/* Right Column: Rest of the Controls */}
+  <div className="w-3/4">
+    
+    {/* Brand and Shaft Dropdowns at the Top */}
+    {selectedImageOption && (
+      <>
+        <label htmlFor="Brand" className="block text-lg font-medium text-gray-700 mb-2">
+          Select Model:
+        </label>
+        <select
+          id="Brand"
+          value={selectedBrand}
+          onChange={handleBrandChange}
+          className="block w-full p-2 border border-gray-300 rounded-lg mb-4 focus:border-indigo-500 focus:ring focus:ring-indigo-200"
+        >
+          <option value="">Select a Model</option>
+          {availablebrands.map((Brand, index) => (
+            <option key={index} value={Brand}>
+              {Brand}
+            </option>
+          ))}
+        </select>
+      </>
+    )}
+
+    {selectedBrand && brands[selectedBrand] && (
+      <>
+        <label htmlFor="shaft" className="block text-lg font-medium text-gray-700 mb-2">
+          Select a Shaft:
+        </label>
+        <div className="relative">
+          <div className="w-full bg-white border border-gray-300 rounded-lg">
+            {brands[selectedBrand].map((shaft) => (
+              <div
+                key={shaft}
+                onClick={() => handleShaftChange(shaft)}
+                className={`flex flex-col justify-start p-2 cursor-pointer hover:bg-gray-100 ${
+                  selectedShaft === shaft ? 'bg-indigo-50' : ''
+                }`}
+              >
+                <span className="text-gray-700 mb-2">{shaft}</span>
+                <img
+                  src={shaftImages[shaft] || otherImg}
+                  alt={shaft}
+                  className="w-full h-[40px] object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </>
+    )}
+
+    {/* Alignment Select Control */}
+    {selectedImageOption && (
+      <>
+        <label htmlFor="alignment" className="block text-lg font-medium text-gray-700 mb-2">
+          Select Hand:
+        </label>
+        <select
+          id="alignment"
+          value={alignment}
+          onChange={handleAlignmentChange}
+          className="block w-full p-2 border border-gray-300 rounded-lg mb-4 focus:border-indigo-500 focus:ring focus:ring-indigo-200"
+        >
+          <option value="right">Right</option>
+          <option value="left">Left</option>
+        </select>
+        {errors.alignment && <p className="text-red-500 text-sm mt-2">{errors.alignment}</p>}
+      </>
+    )}
+
+    {/* Pure Select Control */}
+    {selectedImageOption && (
+      <>
+        <div className="flex items-center mb-4">
+          <label htmlFor="pure" className="mr-2 text-lg font-medium text-gray-700 mb-2">
+            Do you want to Pure your shafts:
+          </label>
+          <div>
+            <a href="https://sstpure.com/" target="_blank" rel="noopener noreferrer">
+              <img
+                src="https://sstpure.com/wp-content/uploads/2018/02/sst-pure-logo-1.png"
+                alt="Pure Website"
+                style={{ width: '130px', height: '40px' }}
+              />
+            </a>
+          </div>
+        </div>
+        <select
+          id="pure"
+          value={pure}
+          onChange={handlePureChange}
+          className="block w-full p-2 border border-gray-300 rounded-lg mb-4 focus:border-indigo-500 focus:ring focus:ring-indigo-200"
+        >
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+        {errors.pure && <p className="text-red-500 text-sm mt-2">{errors.pure}</p>}
+      </>
+    )}
+
+   {/* adjustment Select Control */}
+   {selectedImageOption && (
           <>
             <label htmlFor="adjustment" className="block text-lg font-medium text-gray-700 mb-2">
               Length Adjustment (inches):
@@ -356,12 +415,12 @@ function CascadingDropdowns() {
               
 
             </select>
-            {errors.adjustment && <p className="text-red-500 text-sm mt-2">{errors.adjustment}</p>}
-          </>
-        )}
+        {errors.adjustment && <p className="text-red-500 text-sm mt-2">{errors.adjustment}</p>}
+      </>
+    )}
 
-          {/* lieangle Select Control */}
-          {selectedImageOption && (
+    {/* lieangle Select Control */}
+    {selectedImageOption && (
           <>
             <label htmlFor="lieangle" className="block text-lg font-medium text-gray-700 mb-2">
               Lie Angle:
@@ -393,90 +452,43 @@ function CascadingDropdowns() {
               
 
             </select>
-            {errors.lieangle && <p className="text-red-500 text-sm mt-2">{errors.lieangle}</p>}
-          </>
-        )}
+        {errors.lieangle && <p className="text-red-500 text-sm mt-2">{errors.lieangle}</p>}
+      </>
+    )}
 
-        {/* Club Multi Select Control */}
-        {selectedImageOption && (
-          <div className="mb-6">
-            <h3 className="text-lg font-medium text-gray-700 mb-2">Select Clubs:</h3>
-            <div className="flex flex-wrap gap-2">
-              {['G', 'P', '9', '8', '7', '6', '5', '4', '3', '2'].map((club) => (
-                <div
-                  key={club}
-                  className={`w-12 h-12 flex items-center justify-center border rounded-lg cursor-pointer ${
-                    selectedClubs.includes(club) ? 'bg-indigo-500 text-white' : 'bg-gray-200 text-gray-700'
-                  }`}
-                  onClick={() => handleClubSelection(club)}
-                >
-                  {club}
-                </div>
-              ))}
-            </div>
-            {errors.clubs && <p className="text-red-500 text-sm mt-2">{errors.clubs}</p>}
-          </div>
-        )}
-
-        {/* Brand Dropdown */}
-        {selectedImageOption && (
-          <>
-            <label htmlFor="Brand" className="block text-lg font-medium text-gray-700 mb-2">
-              Select Model:
-            </label>
-            <select
-              id="Brand"
-              value={selectedBrand}
-              onChange={handleBrandChange}
-              className="block w-full p-2 border border-gray-300 rounded-lg mb-4 focus:border-indigo-500 focus:ring focus:ring-indigo-200"
+    {/* Club Multi Select Control */}
+    {selectedImageOption && (
+      <div className="mb-6">
+        <h3 className="text-lg font-medium text-gray-700 mb-2">Select Clubs:</h3>
+        <div className="flex flex-wrap gap-2">
+          {['G', 'P', '9', '8', '7', '6', '5', '4', '3', '2'].map((club) => (
+            <div
+              key={club}
+              className={`w-12 h-12 flex items-center justify-center border rounded-lg cursor-pointer ${
+                selectedClubs.includes(club) ? 'bg-indigo-500 text-white' : 'bg-gray-200 text-gray-700'
+              }`}
+              onClick={() => handleClubSelection(club)}
             >
-              <option value="">Select a Model</option>
-              {availablebrands.map((Brand, index) => (
-                <option key={index} value={Brand}>
-                  {Brand}
-                </option>
-              ))}
-            </select>
-          </>
-        )}
-
-        {/* Shaft Dropdown with Right-Aligned Images */}
-        {selectedBrand && brands[selectedBrand] && (
-          <>
-            <label htmlFor="shaft" className="block text-lg font-medium text-gray-700 mb-2">
-              Select a Shaft:
-            </label>
-            <div className="relative">
-              <div className="w-full bg-white border border-gray-300 rounded-lg">
-                {brands[selectedBrand].map((shaft) => (
-                  <div
-                    key={shaft}
-                    onClick={() => handleShaftChange(shaft)}
-                    className={`flex flex-col justify-start p-2 cursor-pointer hover:bg-gray-100 ${
-                      selectedShaft === shaft ? 'bg-indigo-50' : ''
-                    }`}
-                  >
-                    <span className="text-gray-700 mb-2">{shaft}</span>
-                    <img
-                      src={shaftImages[shaft] || otherImg} // Use the correct image based on the selected shaft
-                      alt={shaft}
-                      className="w-full h-[40px] object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
+              {club}
             </div>
-          </>
-        )}
+          ))}
+        </div>
+        {errors.clubs && <p className="text-red-500 text-sm mt-2">{errors.clubs}</p>}
+      </div>
+    )}
 
-        {selectedShaft && selectedImageOption && (
-          <div className="mt-6 p-4 bg-indigo-50 rounded-lg">
-            <h3 className="text-lg font-semibold">Setup:</h3>
-            <p>
-              Alignment: {alignment}, Pured: {pure}, Length Adjustment: {adjustment}, Lie Angle:{lieangle}, Brand: {selectedImageOption.label}, Model: {selectedBrand}, Shaft: {selectedShaft}, Clubs: {selectedClubs.join(', ')}
-            </p>
-          </div>
-        )}
+    {selectedShaft && selectedImageOption && (
+      <div className="mt-6 p-4 bg-indigo-50 rounded-lg">
+        <h3 className="text-lg font-semibold">Setup:</h3>
+        <p>
+          Alignment: {alignment}, Pured: {pure}, Length Adjustment: {adjustment}, Lie Angle:{lieangle}, Brand: {selectedImageOption.label}, Model: {selectedBrand}, Shaft: {selectedShaft}, Clubs: {selectedClubs.join(', ')}
+        </p>
+      </div>
+    )}
+  </div>
+</div>
+
+
 
         {/* User Information Form */}
         {selectedShaft && (

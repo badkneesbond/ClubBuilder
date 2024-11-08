@@ -85,24 +85,25 @@ function Home() {
       </div>
 
        {/* Grid of Club Images */}
-       <div className="grid grid-cols-4 gap-1">
-        {displayedModels.map(({ brand, model }) => (
-          <Link
-            key={model}
-            to={`/build?brand=${encodeURIComponent(brand)}&model=${encodeURIComponent(model)}`}
-          >
-            <div className="flex items-center justify-center w-50 h-50 border border-gray-300 rounded-lg overflow-hidden">
-              <img
-                src={modelImages[model] || genericImage}
-                alt={model}
-                className="object-contain"
-                style={{ width: '200px', height: '200px' }}
-              />
-              <p className="text-center mt-2">{model}</p>
-            </div>
-          </Link>
-        ))}
+<div className="grid grid-cols-4 gap-1">
+  {displayedModels.map(({ brand, model }) => (
+    <Link
+      key={model}
+      to={`/build?brand=${encodeURIComponent(brand)}&model=${encodeURIComponent(model)}`}
+    >
+      <div className="flex flex-col items-center justify-center w-50 h-50 border border-gray-300 rounded-lg overflow-hidden">
+        <img
+          src={modelImages[model] || genericImage}
+          alt={model}
+          className="object-contain"
+          style={{ width: '200px', height: '200px' }}
+        />
+        <p className="text-center mt-2">{model}</p>
       </div>
+    </Link>
+  ))}
+</div>
+
     </div>
   );
 }

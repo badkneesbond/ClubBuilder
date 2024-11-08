@@ -309,28 +309,28 @@ function CascadingDropdowns() {
     {selectedBrand && brands[selectedBrand] && (
       <>
         <label htmlFor="shaft" className="block text-lg font-medium text-gray-700 mb-2">
-          Select a Shaft:
-        </label>
-        <div className="relative">
-          <div className="w-full bg-white border border-gray-300 rounded-lg">
-            {brands[selectedBrand].map((shaft) => (
-              <div
-                key={shaft}
-                onClick={() => handleShaftChange(shaft)}
-                className={`flex flex-col justify-start p-2 cursor-pointer hover:bg-gray-100 ${
-                  selectedShaft === shaft ? 'bg-indigo-50' : ''
-                }`}
-              >
-                <span className="text-gray-700 mb-2">{shaft}</span>
-                <img
-                  src={shaftImages[shaft] || otherImg}
-                  alt={shaft}
-                  className="w-full h-[40px] object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+  Select a Shaft:
+</label>
+<div className="relative">
+  <div className="w-full bg-white border border-gray-300 rounded-lg">
+    {brands[selectedBrand].map((shaft) => (
+      <div
+        key={shaft}
+        onClick={() => handleShaftChange(shaft)}
+        className={`flex flex-col justify-start p-2 cursor-pointer hover:bg-gray-100 ${
+          selectedShaft === shaft ? 'bg-indigo-50 border-2 border-indigo-500' : ''
+        }`}
+      >
+        <span className="text-gray-700 mb-2">{shaft}</span>
+        <img
+          src={shaftImages[shaft] || otherImg}
+          alt={shaft}
+          className="w-full h-[40px] object-cover"
+        />
+      </div>
+    ))}
+  </div>
+</div>
       </>
     )}
 
